@@ -5,16 +5,34 @@ POST http://host.docker.internal/signup
 Content-Type: application/json
 
 {
-  "email": "gagantest@mail.com",
+  "email": "test@mail.com",
   "password": "123456781212"
 }
 
-### Sign Up
+### Login
 
 POST http://host.docker.internal/login
 Content-Type: application/json
 
 {
-  "email": "gagantest@mail.com",
+  "email": "test@mail.com",
   "password": "123456781212"
 }
+
+### Fetch All logs
+GET http://host.docker.internal/logs
+
+### Create Tasks
+POST http://host.docker.internal:3000/tasks
+Authorization: Bearer [Fetch Token after running login]
+Content-Type: application/json
+
+{
+  "title": "This is a title",
+  "text": "This is text"
+}
+
+
+### Fetch Tasks - Use url of tasks load balancer
+GET http://host.docker.internal:3000/tasks
+Authorization: Bearer [Fetch Token after running login]
