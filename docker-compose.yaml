@@ -14,4 +14,13 @@ services:
       MONGO_USERNAME: gagan
       MONGO_PASSWORD: '123456'
       MONGO_URI: localhost
-      AUTH_API_ADDRESSS: 'auth:3000'
+      AUTH_API_ADDRESS: 'auth:3000'
+  tasks:
+    build: ./tasks-api
+    ports:
+      - '3000:3000'
+    environment:
+      MONGO_USERNAME: gagan
+      MONGO_PASSWORD: '123456'
+      MONGO_URI: localhost
+      AUTH_API_ADDRESS: 'auth:3000'
