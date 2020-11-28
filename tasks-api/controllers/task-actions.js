@@ -47,6 +47,7 @@ const deleteTask = async (req, res, next) => {
 };
 
 const createTask = async (req, res, next) => {
+  console.log(req.userId);
   const title = req.body.title;
   const text = req.body.text;
   const newTask = new Task({
