@@ -1,0 +1,20 @@
+## Recplace host.docker.internal with localhost
+### Sign Up
+
+POST http://host.docker.internal/signup
+Content-Type: application/json
+
+{
+  "email": "gagantest@mail.com",
+  "password": "123456781212"
+}
+
+### Sign Up
+
+POST http://host.docker.internal/login
+Content-Type: application/json
+
+{
+  "email": "gagantest@mail.com",
+  "password": "123456781212"
+}
