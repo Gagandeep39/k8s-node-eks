@@ -28,6 +28,14 @@ spec:
             limits:
               memory: '128Mi'
               cpu: '150m'
+          volumeMounts:
+            - name: efs-vol
+              mountPath: /app/users
+      volumes:
+        - name: efs-vol
+          persistentVolumeClaim:
+              #Persistence volume claim name
+              claimName: users-efs-pvc
 ---
 apiVersion: v1
 kind: Service
