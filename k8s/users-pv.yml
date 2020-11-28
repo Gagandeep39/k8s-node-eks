@@ -1,5 +1,7 @@
 # https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/examples/kubernetes/static_provisioning/specs/storageclass.yaml
 # Found at aws-efs-csi-driver/examples/kubernetes/static_provisioning/specs/storageclass.yaml
+# Below code runs with AWS only. Comment if running locally
+####################################
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
 metadata:
@@ -13,7 +15,7 @@ metadata:
   name: users-efs-pv
 spec:
   capacity:
-    storageCapacity: 5Gi
+    storage: 5Gi
   volumeMode: Filesystem
   accessModes:
     - ReadWriteMany
