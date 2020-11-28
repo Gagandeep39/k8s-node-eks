@@ -31,11 +31,10 @@ mongoose.connect(
   { useNewUrlParser: true },
   (err) => {
     if (err) {
-      console.log(CONNECTION_URI);
       console.log(err);
       console.log('COULD NOT CONNECT TO MONGODB!');
     } else {
-      app.listen(3000);
+      app.listen(3000, () => console.log('Server Started with Port 3000'));
     }
   }
 );
