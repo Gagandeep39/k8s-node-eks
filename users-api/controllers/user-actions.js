@@ -9,8 +9,7 @@ const validateCredentials = (email, password) => {
     !email ||
     email.trim().length === 0 ||
     !email.includes('@') ||
-    !password ||
-    password.trim().length < 7
+    !password
   ) {
     createAndThrowError('Invalid email or password.', 422);
   }
