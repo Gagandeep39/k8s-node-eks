@@ -22,20 +22,21 @@ spec:
               value: '123456'
             - name: MONGO_URI
               value: mongo-srv.default
-            - name: AUTH_API_ADDRESSS
+            - name: AUTH_API_ADDRESS
               value: 'auth-service.default:3000'
           resources:
             limits:
               memory: '128Mi'
               cpu: '150m'
-          volumeMounts:
-            - name: efs-vol
-              mountPath: /app/users
-      volumes:
-        - name: efs-vol
-          persistentVolumeClaim:
-              #Persistence volume claim name
-              claimName: users-efs-pvc
+      # Below section works for AWS Only - Comment if running locally
+      #     volumeMounts:
+      #       - name: efs-vol
+      #         mountPath: /app/users
+      # volumes:
+      #   - name: efs-vol
+      #     persistentVolumeClaim:
+      #         #Persistence volume claim name
+      #         claimName: users-efs-pvc
 ---
 apiVersion: v1
 kind: Service
