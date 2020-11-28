@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: users-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: users
+  template:
+    metadata:
+      labels:
+        app: users
+    spec:
+      containers:
+        - name: users-api
+          image: gagandeep39/k8s-node-eks-users-api:latest
+          env:
+            - name: MONGO_USERNAME
+              value: gagan
+            - name: MONGO_PASSWORD
+              value: '123456'
+            - name: MONGO_URI
+              value: mongo-srv.default
+            - name: AUTH_API_ADDRESSS
+              value: 'auth-service.default:3000'
+          resources:
+            limits:
+              memory: '128Mi'
+              cpu: '150m'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: users-service
+spec:
+  selector:
+    app: users
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
