@@ -24,3 +24,10 @@ services:
       MONGO_PASSWORD: '123456'
       MONGO_URI: localhost
       AUTH_API_ADDRESS: 'auth:3000'
+  mongo:
+    image: mongo
+    ports: 
+      - 27017:27017
+    environment: 
+      MONGO_INITDB_ROOT_USERNAME: gagan
+      MONGO_INITDB_ROOT_PASSWORD: '123456'
