@@ -19,6 +19,7 @@ const verifyUser = async (req, res, next) => {
   try {
     token = retrieveToken(req.headers);
   } catch (err) {
+    console.log(err);
     return next(err);
   }
 
@@ -32,6 +33,7 @@ const verifyUser = async (req, res, next) => {
       }
     );
   } catch (err) {
+    console.log(err);
     const error = createError('Could not authenticate user.', 401);
     return next(error);
   }
