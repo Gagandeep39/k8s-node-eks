@@ -2,11 +2,14 @@
 
 - [Steps to run](#steps-to-run)
   - [Description](#description)
-  - [Steps](#steps)
+  - [NOTE](#note)
+  - [Steps - AWS](#steps---aws)
     - [1. Cluster](#1-cluster)
     - [2. Worker Nodes](#2-worker-nodes)
-      - [**TODO** Search for a way to check pod resource usage in KES](#todo-search-for-a-way-to-check-pod-resource-usage-in-kes)
     - [3. Setting EKS as our docker context](#3-setting-eks-as-our-docker-context)
+  - [Adding EFS Volume using CSI](#adding-efs-volume-using-csi)
+    - [Steps](#steps)
+  - [Steps to run - Locally](#steps-to-run---locally)
 
 ## Description
 
@@ -16,7 +19,12 @@
 - AWS creates LoadBalancer if we define it on deployment files
 - Load balancer URL can be found using `kubectl get service` and look for service with loadbalancer
 
-## Steps
+## NOTE
+
+- Do not run in Dev container
+- Installing aws-cli in devcontainer will give error `Unknown options: eks,update-kubeconfig`
+
+## Steps - AWS
 
 ### 1. Cluster
 
@@ -58,8 +66,7 @@
 10. Next
 11. Create
 
-#### **TODO** Search for a way to check pod resource usage in KES
-
+- **TODO** Search for a way to check pod resource usage in EKS
 - `kubectl top pods` doesnt work
 
 ### 3. Setting EKS as our docker context 
@@ -73,3 +80,32 @@
 5. Enter `aws configure`
    1. Enter ID, Secret key (From previous step), region (EKS region - Can be found in top right of aws console)
 6. `aws eks --region us-east-2 update-kubeconfig --name k8s-eks-node` Update Kubeconfig file at `C:\Users\<Username>\.kube\config`
+7. Run all files `kubectl apply -f .`
+
+## Adding EFS Volume using CSI
+
+- Visit [link](https://github.com/kubernetes-sigs/aws-efs-csi-driver) for more info
+- CSI driver is required because EFS is not natively supported by Kubernetes
+
+### Steps
+
+1. Run the command `kubectl apply -k "github.com/kubernetes-sigs/aws-efs-csi-driver/deploy/kubernetes/overlays/stable/?ref=release-1.0"` to setful CSI for EFS
+2. Create security group
+   1. Go to Services -> EC2
+   2. Create ecurity Group
+   3. Select your EKS VPPC
+   4. Add Inbound rule for `NFS`
+   5. Source Anywhere OR (Services -> VPC -> VPC -> Select EKS VPC -> Look for IPv4 CIDR -> COPY the IP and paste)
+3. Go to Services -> EFS -> Create
+   1. Enter name and selct EKS VPC
+   2. Remove default secutiy groups from subnet and specify the ones created in previous step
+   3. Create
+4. Create a persistentn volume deployment with `Storage CLass`, `PersistentVolume`, `PersistentVolumeClaim`
+5. Add volume support in user depl
+
+
+## Steps to run - Locally
+
+1. Make sure k8s/users-pv.yml code is commented
+2. Make sure users.yaml code related to volumes is commented
+3. `kubectl apply -f .`
