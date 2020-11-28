@@ -1,0 +1,43 @@
+name: Docker push - Auth
+
+on:
+  push:
+    branches:
+      - '**'
+    paths:
+      - 'auth-api/**'
+
+defaults:
+  run:
+    working-directory: auth-api
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set env
+        run: echo "NOW=v$(date +'%Y%m%d.%H%M%S')" >> $GITHUB_ENV
+        # Required for Build and push step
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+        # Required for Build and push step
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+        # Required for Build and push step
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          context: auth-api
+          file: auth-api/Dockerfile
+          push: true
+          tags: |
+            gagandeep39/k8s-node-eks-auth-api:${{env.NOW}}
+            gagandeep39/k8s-node-eks-auth-api:latest
