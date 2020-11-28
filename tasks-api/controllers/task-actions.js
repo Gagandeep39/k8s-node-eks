@@ -5,7 +5,7 @@ const { createError } = require('../helpers/error');
 
 const getTasks = async (req, res, next) => {
   let tasks;
-
+  console.log(req.userId);
   try {
     tasks = await Task.find({ user: req.userId });
   } catch (err) {
@@ -60,6 +60,7 @@ const createTask = async (req, res, next) => {
   try {
     savedTask = await newTask.save();
   } catch (err) {
+    console.log(err);
     const error = createError('Failed to save task.', 500);
     return next(error);
   }
