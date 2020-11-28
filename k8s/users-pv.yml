@@ -1,0 +1,37 @@
+# https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/examples/kubernetes/static_provisioning/specs/storageclass.yaml
+# Found at aws-efs-csi-driver/examples/kubernetes/static_provisioning/specs/storageclass.yaml
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: efs-sc
+provisioner: efs.csi.aws.com
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: users-efs-pv
+spec:
+  capacity:
+    storageCapacity: 5Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  storageClassName: efs-sc
+  csi:
+    driver: efs.csi.aws.com
+    # Filesystm ID from Servies -> EFS -> Your EFS Filesystem ID
+    volumeHandle: fs-0328467b
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: users-efs-pvc
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: efs-sc
+  resources:
+    requests:
+      storage: 5Gi
